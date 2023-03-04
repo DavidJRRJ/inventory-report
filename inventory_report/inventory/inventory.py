@@ -7,7 +7,7 @@ import os
 
 
 class Inventory:
-    def import_data(file_path, report_type):
+    def generate_report(file_path):
         _, ext = os.path.splitext(file_path)
         if ext == ".csv":
             data = CsvImporter.import_data(file_path)
@@ -17,12 +17,14 @@ class Inventory:
             data = XmlImporter.import_data(file_path)
         else:
             raise ValueError("Arquivo Inválido")
+        return data
 
-        if report_type == 'simples':
+    def import_data(data, report_type):
+        if report_type == "simples":
             report = SimpleReport.generate(data)
-        elif report_type == 'completo':
-            report = CompleteReport.generate(data)        
+        elif report_type == "completo":
+            report = CompleteReport.generate(data)
         else:
-            raise ValueError('Tipo de relatório inválido')
-        
+            raise ValueError("Tipo de relatório inválido")
+
         return report

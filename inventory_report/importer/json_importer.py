@@ -8,6 +8,6 @@ class JsonImporter(Importer):
         _, ext = os.path.splitext(file_path)
         if ext != ".json":
             raise ValueError("Arquivo JSON inválido")
-     
+
         with open(file_path) as file:
             return json.load(file)
