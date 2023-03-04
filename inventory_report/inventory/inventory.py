@@ -7,24 +7,28 @@ import os
 
 
 class Inventory:
-    def generate_report(file_path):
-        _, ext = os.path.splitext(file_path)
-        if ext == ".csv":
-            data = CsvImporter.import_data(file_path)
-        elif ext == ".json":
-            data = JsonImporter.import_data(file_path)
-        elif ext == ".xml":
-            data = XmlImporter.import_data(file_path)
+    def generate_report(file_path, ext):
+        IMPORTERS = {
+            ".csv": CsvImporter,
+            ".json": JsonImporter,
+            ".xml": XmlImporter,
+        }
+        importer_class = IMPORTERS.get(ext)
+        if importer_class:
+            return importer_class.import_data(file_path)
         else:
             raise ValueError("Arquivo Inválido")
-        return data
 
-    def import_data(data, report_type):
-        if report_type == "simples":
-            report = SimpleReport.generate(data)
-        elif report_type == "completo":
-            report = CompleteReport.generate(data)
-        else:
+    def import_data(file_path, report_type):
+        _, ext = os.path.splitext(file_path)
+        data = Inventory.generate_report(file_path, ext)
+
+        switcher = {
+            "simples": SimpleReport.generate(data),
+            "completo": CompleteReport.generate(data),
+        }
+        report = switcher.get(report_type, None)
+        if report is None:
             raise ValueError("Tipo de relatório inválido")
 
         return report
