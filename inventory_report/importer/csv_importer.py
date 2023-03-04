@@ -7,7 +7,7 @@ class CsvImporter(Importer):
     def import_data(file_path):
         _, ext = os.path.splitext(file_path)
         if ext != ".csv":
-            raise ValueError("Arquivo csv inválido")
+            raise ValueError("Arquivo inválido")
 
         with open(file_path) as file:
             reader = csv.DictReader(file)

@@ -7,7 +7,7 @@ class XmlImporter(Importer):
     def import_data(file_path):
         _, ext = os.path.splitext(file_path)
         if ext != ".xml":
-            raise ValueError("Arquivo xml inválido")
+            raise ValueError("Arquivo inválido")
 
         file = ET.parse(file_path)
         root = file.getroot()
